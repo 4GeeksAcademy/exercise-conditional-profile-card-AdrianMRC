@@ -29,21 +29,37 @@ function render(variables = {}) {
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
 
-  // reset the website body with the new html output
+  const socialPosition =
+    variables.socialMediaPosition === "position-right"
+      ? "position-right"
+      : "position-left";
+
+  const socialMedia = ["twitter", "github", "linkedin", "instagram"]
+    .filter(platform => variables[platform])
+    .map(
+      platform =>
+        `<li><a href="https://${platform}.com/${
+          platform === "linkedin" ? "in/" : ""
+        }${variables[platform]}"><i class="fab fa-${platform}"></i></a></li>`
+    )
+    .join("");
+
+  const fullName =
+    [variables.name, variables.lastName].filter(Boolean).join(" ") ||
+    "Enter Name";
+  const role = variables.role || "Enter Role";
+  const location =
+    [variables.city, variables.country].filter(Boolean).join(", ") ||
+    "City, country";
+
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
-            ${cover}
-          <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
-        </div>
-    `;
+    ${cover}
+    <img src="${variables.avatarURL}" class="photo" />
+    <h1>${fullName}</h1>
+    <h2>${role}</h2>
+    <h3>${location}</h3>
+    <ul class="${socialPosition}">${socialMedia}</ul>
+  </div>`;
 }
 
 /**
@@ -54,9 +70,11 @@ window.onload = function() {
     // if includeCover is true the algorithm should show the cover image
     includeCover: true,
     // this is the image's url that will be used as a background for the profile cover
-    background: "https://images.unsplash.com/photo-1511974035430-5de47d3b95da",
+    background:
+      "https://img.freepik.com/fotos-premium/representacion-3d-ilustracion-escena-ciencia-ficcion_138734-889.jpg",
     // this is the url for the profile avatar
-    avatarURL: "https://randomuser.me/api/portraits/women/42.jpg",
+    avatarURL:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Jrt06-J4Yd1AR1iotjGysGzIVsGd_hd-Iw&s",
     // social media bar position (left or right)
     socialMediaPosition: "position-left",
     // social media usernames
